@@ -96,12 +96,49 @@ def add_interaction():
 #     response, status_code = recommendation_controller.get_recommendations(user_id)
 #     recommendation_controller.recommendation_service.display_interactions()
 #     return jsonify(response), status_code
+# @app.route('/get_recommendations/<user_id>', methods=['GET'])
+# def get_recommendations(user_id):
+#     user_id = int(user_id)  # Convert to integer
+#     response, status_code = recommendation_controller.get_recommendations(user_id)
+#     return jsonify(response), status_code
 @app.route('/get_recommendations/<user_id>', methods=['GET'])
 def get_recommendations(user_id):
-    user_id = int(user_id)  # Convert to integer
-    response, status_code = recommendation_controller.get_recommendations(user_id)
-    return jsonify(response), status_code
-
+    try:
+        print(f"Received request for recommendations for User {user_id}")
+        user_id = int(user_id)  # Ensure user_id is an integer
+        response, status_code = recommendation_controller.get_recommendations(user_id)
+        return jsonify(response), status_code
+    except Exception as e:
+        print(f"Error occurred while processing recommendations: {e}")
+        return jsonify({"message": "An error occurred while fetching recommendations"}), 500
+@app.route('/add_bulk_products', methods=['POST'])
+def add_bulk_products():
+    """Add multiple products at once."""
+    data = request.json.get("products", [])
+    for product in data:
+        catalog_service.add_product(product["product_id"], {"name": product["name"], "price": product["price"]})
+    return jsonify({"message": f"{len(data)} products added successfully."}), 201
+@app.route('/add_bulk_preferences', methods=['POST'])
+def add_bulk_preferences():
+    """Add multiple user preferences at once."""
+    data = request.json.get("preferences", [])
+    for preference in data:
+        user_pref_service.add_preference(preference["user_id"], preference["preference"])
+    return jsonify({"message": f"{len(data)} preferences added successfully."}), 201
+@app.route('/add_bulk_interactions', methods=['POST'])
+def add_bulk_interactions():
+    """Add multiple user-product interactions at once."""
+    data = request.json.get("interactions", [])
+    for interaction in data:
+        recommendation_service.add_interaction(interaction["user_id"], interaction["product_id"])
+    return jsonify({"message": f"{len(data)} interactions added successfully."}), 201
+@app.route('/add_bulk_users', methods=['POST'])
+def add_bulk_users():
+    """Add multiple users at once."""
+    data = request.json.get("users", [])
+    for user in data:
+        user_service.add_user(user["user_id"], user["name"])
+    return jsonify({"message": f"{len(data)} users added successfully."}), 201
 # Run the Flask app
 if __name__ == '__main__':
     app.run(debug=True)

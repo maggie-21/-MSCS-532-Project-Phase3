@@ -17,7 +17,8 @@ class RecommendationService:
         # Recommendations from interactions
         interaction_recommendations = []
         if user_id in self.user_product_graph.graph:
-            interaction_recommendations = self.user_product_graph.graph[user_id]
+            # Extract keys (neighbors) as a list from the graph
+            interaction_recommendations = list(self.user_product_graph.graph[user_id].keys())
         print(f"Interaction-based Recommendations for User {user_id}: {interaction_recommendations}")
 
         # Recommendations from preferences
@@ -41,7 +42,8 @@ class RecommendationService:
 
         # Merge recommendations
         all_recommendations = list(set(interaction_recommendations + preference_recommendations))
-        return all_recommendations
+        return {"recommendations": all_recommendations, "user_id": user_id}
+
     
     def normalize(self,word):
         """Normalize a word by converting it to lowercase and handling plurals."""
