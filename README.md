@@ -23,16 +23,20 @@ A RESTful Recommendation System designed to provide personalized product recomme
 
 ## **Setup Instructions**
 1. Clone the repository:
+   ```bash
    git clone https://github.com/maggie-21/-MSCS-532-Project-Phase3.git  
    cd RecommendationSystem  
 
-2. Install dependencies:  
+3. Install dependencies:
+   ```bash
    pip install -r requirements.txt  
 
-3. Start the server:  
+5. Start the server:
+   ```bash 
    python3 App.py  
 
-4. Try out the system:  
+7. Try out the system:
+   ```bash 
    python3 Main.py  
 
 ---
@@ -61,24 +65,29 @@ A RESTful Recommendation System designed to provide personalized product recomme
 ---
 
 ## **How to Run**
-1. Run the Server:  
+1. Run the Server:
+   ```bash  
    python3 App.py  
-
+    ```
    The server will start on http://127.0.0.1:5000.  
 
-2. Test the System:  
+3. Test the System:
+   ```bash
    python3 Main.py  
-
+    ```
    This script interacts with the API to add data and retrieve recommendations.
 
 ---
 
 ## **Examples**
 ### **Adding a User**
+```bash
 curl -X POST http://127.0.0.1:5000/add_user -H "Content-Type: application/json" -d '{"user_id": 1, "name": "Alice"}'
-
+```
 ### **Getting Recommendations**
+```bash
 curl http://127.0.0.1:5000/get_recommendations/1
+```
 
 ---
 
